@@ -1,25 +1,22 @@
-# Use a lightweight Node.js image
-FROM node:20-slim
+FROM debian:bookworm
 
-# Install ffmpeg and Python (for yt-dlp)
+# Install ffmpeg, python3, python3-pip, and python3-venv
 RUN apt-get update && \
-    apt-get install -y ffmpeg python3 python3-pip && \
-    pip3 install -U yt-dlp && \
+    apt-get install -y ffmpeg python3 python3-pip python3-venv && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Set working directory inside container
-WORKDIR /app
+# Create a virtual environment at /venv
+RUN python3 -m venv /venv
 
-# Copy package.json and install dependencies first (for caching)
-COPY package*.json ./
+# Upgrade pip inside the venv and install yt-dlp
+RUN /venv/bin/pip install --upgrade pip && \
+    /venv/bin/pip install yt-dlp
 
-RUN npm install
+# Add virtual environment's bin directory to PATH
+ENV PATH="/venv/bin:$PATH"
 
-# Now copy the rest of the server files
-COPY . .
+# Optional: Confirm yt-dlp installation
+RUN yt-dlp --version
 
-# Expose the port your app runs on (adjust if different)
-EXPOSE 3001
-
-# Start the server
-CMD ["node", "src/index.js"]
+# Default command (optional)
+CMD ["yt-dlp", "--help"]

@@ -37,7 +37,7 @@ function App() {
     // Connect to socket.io
     if (!socketRef.current) {
       socketRef.current = io(BACKEND_URL, {
-        transports: ['websocket'],
+        transports: ['polling'],
         withCredentials: true
       });
     }

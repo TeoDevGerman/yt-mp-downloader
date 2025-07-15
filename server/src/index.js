@@ -14,8 +14,18 @@ const JWT_SECRET = 'your_jwt_secret';
 
 const app = express();
 const server = http.createServer(app);
-const io = new Server(server, { cors: { origin: '*' } });
-app.use(cors());
+const io = new Server(server, {
+    cors: {
+        origin: 'https://yt-mp-downloader.vercel.app',
+        methods: ['GET', 'POST'],
+        credentials: true
+    }
+});
+app.use(cors({
+    origin: 'https://yt-mp-downloader.vercel.app',
+    methods: ['GET', 'POST'],
+    credentials: true
+}));
 app.use(express.json());
 
 const PORT = 3001;

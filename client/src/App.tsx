@@ -36,7 +36,10 @@ function App() {
 
     // Connect to socket.io
     if (!socketRef.current) {
-      socketRef.current = io(BACKEND_URL);
+      socketRef.current = io(BACKEND_URL, {
+        transports: ['websocket'],
+        withCredentials: true
+      });
     }
     const socket = socketRef.current;
 

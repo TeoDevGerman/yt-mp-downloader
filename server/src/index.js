@@ -10,7 +10,7 @@ const mongoose = require('mongoose');
 const User = require('./models/User');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const JWT_SECRET = 'your_jwt_secret'; // Change this in production!
+const JWT_SECRET = 'your_jwt_secret';
 
 const app = express();
 const server = http.createServer(app);
@@ -21,14 +21,14 @@ app.use(express.json());
 const PORT = 3001;
 
 // MongoDB connection
-mongoose.connect('mongodb://localhost:27017/ytmp', {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-}).then(() => {
-    console.log('Connected to MongoDB');
-}).catch((err) => {
-    console.error('MongoDB connection error:', err);
-});
+// mongoose.connect('mongodb://localhost:27017/ytmp', {
+//     useNewUrlParser: true,
+//     useUnifiedTopology: true,
+// }).then(() => {
+//     console.log('Connected to MongoDB');
+// }).catch((err) => {
+//     console.error('MongoDB connection error:', err);
+// });
 
 // Socket.io connection
 io.on('connection', (socket) => {

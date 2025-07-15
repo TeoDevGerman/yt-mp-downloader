@@ -4,7 +4,7 @@ import { io, Socket } from 'socket.io-client';
 import { parseBlob } from 'music-metadata';
 import './App.css';
 
-const BACKEND_URL = 'http://localhost:3001';
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
 function App() {
   const [url, setUrl] = useState('');

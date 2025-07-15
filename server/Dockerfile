@@ -1,22 +1,29 @@
-FROM debian:bookworm
+# Use official Node.js base image with Debian (includes npm & node)
+FROM node:20-bookworm
 
-# Install ffmpeg, python3, python3-pip, and python3-venv
+# Install system dependencies: ffmpeg, Python, pip, venv
 RUN apt-get update && \
     apt-get install -y ffmpeg python3 python3-pip python3-venv && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Create a virtual environment at /venv
-RUN python3 -m venv /venv
+# Create and activate Python virtual environment
+RUN python3 -m venv /venv && \
+    /venv/bin/pip install --upgrade pip yt-dlp
 
-# Upgrade pip inside the venv and install yt-dlp
-RUN /venv/bin/pip install --upgrade pip && \
-    /venv/bin/pip install yt-dlp
-
-# Add virtual environment's bin directory to PATH
+# Add venv to PATH so yt-dlp is globally available
 ENV PATH="/venv/bin:$PATH"
 
-# Optional: Confirm yt-dlp installation
-RUN yt-dlp --version
+# Set working directory
+WORKDIR /app
 
-# Default command (optional)
-CMD ["yt-dlp", "--help"]
+# Copy your Node app into the container
+COPY . .
+
+# Install Node dependencies
+RUN npm install
+
+# Expose the port your app runs on (adjust if different)
+EXPOSE 3000
+
+# Start the Node.js app
+CMD ["npm", "start"]

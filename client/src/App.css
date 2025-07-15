@@ -1,0 +1,35 @@
+#root {
+  padding: 2rem;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+
+.submit-form {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.url-input {
+  background-color: var(--chrysler-blue);
+  color: white;
+}
+
+.progress {
+  color: var(--timberwolf);
+}
+
+@media(prefers-color-scheme: light) {
+  .url-input {
+    background-color: white;
+    color: var(--chrysler-blue);
+  }
+
+  .progress {
+    color: var(--cool-gray);
+  }
+}
